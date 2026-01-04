@@ -13,7 +13,7 @@
 volatile long encoderCount = 0;
 long lastPulse = 0;
 
-// Sesuaikan (hasil kalibrasi)
+// Hasil kalibrasi motor
 const long PPR_OUTPUT = 660;  // pulses per 360° on output shaft
 
 // ANGLE CONTROL 
