@@ -1,5 +1,5 @@
 
-// ---------------- PIN ----------------
+// PIN 
 #define ENA   9
 #define IN1   8
 #define IN2   7
@@ -9,18 +9,18 @@
 #define TRIG  4
 #define ECHO  5
 
-// ---------------- ENCODER ----------------
+// ENCODER 
 volatile long encoderCount = 0;
 long lastPulse = 0;
 
 // Sesuaikan (hasil kalibrasi)
 const long PPR_OUTPUT = 660;  // pulses per 360° on output shaft
 
-// ---------------- ANGLE CONTROL ----------------
+// ANGLE CONTROL 
 const int TARGET_ANGLE = 120; // degrees
 const long TARGET_PULSE = (PPR_OUTPUT * TARGET_ANGLE) / 360;
 
-// ---------------- PID CONFIG ----------------
+// PID CONFIG
 float Kp = 1.8;
 float Ki = 4.0;
 float Kd = 0.1;
@@ -38,26 +38,26 @@ float D_term = 0.0;
 
 int pwmOut = 0;
 
-// ---------------- FILTER ----------------
+// FILTER
 const float ALPHA = 0.2;      // 0.1–0.3 (lebih kecil = lebih halus)
 
-// ---------------- TIMING ----------------
+// TIMING
 const unsigned long SAMPLE_TIME = 150; // ms
 unsigned long lastTime = 0;
 
-// ---------------- ULTRASONIC ----------------
+//  ULTRASONIC
 const int DIST_THRESHOLD = 5; // cm
 
-// ---------------- STATE ----------------
+// STATE
 enum State { IDLE, ROTATE };
 State state = IDLE;
 
-// ---------------- ISR ----------------
+// ISR
 void encoderISR() {
   encoderCount++;
 }
 
-// ---------------- MOTOR ----------------
+// MOTOR
 void motorForward(int pwm) {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
@@ -70,7 +70,7 @@ void motorStop() {
   digitalWrite(IN2, LOW);
 }
 
-// ---------------- ULTRASONIC ----------------
+// ULTRASONIC
 long readDistanceCM() {
   digitalWrite(TRIG, LOW);
   delayMicroseconds(2);
@@ -84,7 +84,7 @@ long readDistanceCM() {
   return (long)(duration * 0.034 / 2.0);
 }
 
-// ---------------- SETUP ----------------
+// SETUP
 void setup() {
   Serial.begin(115200);
 
@@ -105,7 +105,7 @@ void setup() {
   // value1=setpoint, value2=rpm_actual, value3=P, value4=I, value5=D
 }
 
-// ---------------- LOOP ----------------
+// LOOP
 void loop() {
   long distance = readDistanceCM();
 
@@ -165,7 +165,7 @@ void loop() {
 
       motorForward(pwmOut);
 
-      // ---- angle stop (120 deg) ----
+      // angle stop (120)
       if (pulses >= TARGET_PULSE) {
         motorStop();
         state = IDLE;
@@ -178,8 +178,7 @@ void loop() {
       pwmOut = 0;
       P_term = I_term = D_term = 0;
     }
-
-    // ===== SERIAL PLOTTER OUTPUT (NUMERIC ONLY) =====
+    
     // value1 value2 value3 value4 value5 value6
     Serial.print(rpmSet);        Serial.print(' ');
     Serial.print(rpmFiltered);  Serial.print(' ');
