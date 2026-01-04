@@ -1,12 +1,3 @@
-/* =====================================================
-   REVISED FINAL CODE
-   Ultrasonic Trigger + PID Speed + Angle 120 deg
-   + Serial Plotter: Setpoint, RPM, P, I, D
-   Board  : Arduino Uno / Nano
-   Motor  : 25GA370 DC Gear Motor + Encoder
-   Driver : L298N
-   Sensor : HC-SR04
-   ===================================================== */
 
 // ---------------- PIN ----------------
 #define ENA   9
